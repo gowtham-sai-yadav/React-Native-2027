@@ -1,18 +1,23 @@
 import express from 'express';
-import dotenv from 'dotenv'
-import connectDB from './config/dbConfig.js'
-import authRoutes from './routes/auth.routes.js'
+import dotenv from 'dotenv';
+import connectDB from './config/dbConfig.js';
+import authRoutes from './routes/auth.routes.js';
 
+dotenv.config();
+connectDB();
 
-dotenv.config()
-connectDB()
+const app = express();
 
+// Middleware to parse JSON bodies
+app.use(express.json());
 
+// Routes
+app.use('/api/auth', authRoutes);
 
-
-const app = express()
-
-app.use('/api/auth/' , authRoutes)
+// Test route to verify server is running
+app.get('/', (req, res) => {
+  res.json({ message: 'Server is running!' });
+});
 
 
 
