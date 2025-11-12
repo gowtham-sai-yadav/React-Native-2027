@@ -1,6 +1,15 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { use, useState } from 'react';
 
 export default function SignupScreenUI() {
+
+  const [name , setName] = useState('')
+  const [email , setEmail] = useState('')
+  const [password , setPassword] = useState('')
+  const [loading , setLoading] = useState(false)
+  // const [errors , setErros] = useState()
+
+
   return (
     <KeyboardAvoidingView 
       style={styles.container}
@@ -19,9 +28,7 @@ export default function SignupScreenUI() {
         <View style={styles.content} className="justify-center">
           {/* Header / Logo */}
           <View className="items-center mb-6 mt-6">
-            <View className="h-16 w-16 rounded-2xl bg-emerald-600 items-center justify-center shadow">
-              <Text className="text-white text-3xl">🥬</Text>
-            </View>
+           
             <Text style={styles.title} className="mt-4 text-3xl font-extrabold text-emerald-800">
               Sign Up
             </Text>
