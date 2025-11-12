@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import asyncStorage from "@react-native-async-storage/async-storage";
+
 // Base URL for your API - change this to your server URL
 // IMPORTANT: For React Native on physical devices, use your computer's IP address instead of localhost
 // Example: 'http://192.168.1.100:3000/api' (replace with your actual IP)

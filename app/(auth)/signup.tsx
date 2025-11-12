@@ -1,5 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { use, useState } from 'react';
+import { useState } from 'react';
+import {authApi} from '../../utils/api.js'
+
+
 
 export default function SignupScreenUI() {
 
@@ -8,6 +11,16 @@ export default function SignupScreenUI() {
   const [password , setPassword] = useState('')
   const [loading , setLoading] = useState(false)
   // const [errors , setErros] = useState()
+
+
+  const handleSignUp = async ()=>{
+     try {
+      const response =  await authApi.signup(name.trim(),email.trim(), password)
+       console.log(response)
+     } catch (error) {
+       console.error("Error on Sign up")
+     }
+  }
 
 
   return (
@@ -55,6 +68,10 @@ export default function SignupScreenUI() {
                   placeholderTextColor="#6b7280"
                   autoCapitalize="words"
                   autoComplete="name"
+                  value={name}
+                  onChangeText={(text)=>{
+                    setName(text)
+                  }}
                 />
               </View>
 
@@ -70,6 +87,10 @@ export default function SignupScreenUI() {
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoComplete="email"
+                  value={email}
+                  onChangeText={(text)=>{
+                    setEmail(text)
+                  }}
                 />
               </View>
 
@@ -85,6 +106,11 @@ export default function SignupScreenUI() {
                   secureTextEntry
                   autoCapitalize="none"
                   autoComplete="password-new"
+                  value={password}
+                  onChangeText={(text)=>{
+                    setPassword(text)
+                  }}
+                  
                 />
               </View>
 
@@ -95,7 +121,7 @@ export default function SignupScreenUI() {
               <TouchableOpacity 
                 style={styles.signupButton}
                 className="rounded-2xl py-4 items-center mt-4 bg-emerald-600 shadow"
-                // No onPress – purely presentational
+                 onPress={handleSignUp}
                 activeOpacity={0.8}
               >
                 <Text style={styles.signupButtonText} className="text-white text-lg font-semibold">
