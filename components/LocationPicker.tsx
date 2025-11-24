@@ -1,13 +1,65 @@
-import { StyleSheet, Text, View, Modal , Platform , TouchableOpacity , TextInput} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Platform,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import React from "react";
+import { WebView } from "react-native-webview";
 
 interface LocationPickerProps {
   visible: boolean;
 }
 
 const LocationPicker = ({ visible }: LocationPickerProps) => {
+  const generateMapHtml = (lat: number, lng: number) => {
+    return `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+          <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+          <style>
+            * { margin: 0; padding: 0; }
+            #map { height: 100vh; width: 100%; }
+          </style>
+        </head>
+        <body>
+          <div id="map"></div>
+          <script>
+            const map = L.map('map').setView([${lat}, ${lng}], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            const marker = L.marker([${lat}, ${lng}], { draggable: true }).addTo(map);
+            
+            marker.on('dragend', (e) => {
+              const pos = marker.getLatLng();
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'location',
+                latitude: pos.lat,
+                longitude: pos.lng
+              }));
+            });
+            
+            map.on('click', (e) => {
+              marker.setLatLng(e.latlng);
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'location',
+                latitude: e.latlng.lat,
+                longitude: e.latlng.lng
+              }));
+            });
+          </script>
+        </body>
+      </html>
+    `;
+  };
+
   return (
-    <Modal visible={visible}>
+    <Modal visible={visible} animationType="slide">
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
@@ -29,15 +81,12 @@ const LocationPicker = ({ visible }: LocationPickerProps) => {
           />
         </View>
 
-       
-
-
         {/* Map */}
+        <WebView source={{ html: generateMapHtml(12.8452, 77.6602) }} />
       </View>
     </Modal>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
