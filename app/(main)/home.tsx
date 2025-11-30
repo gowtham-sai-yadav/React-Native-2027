@@ -239,7 +239,11 @@ const home = () => {
       </ScrollView>
 
       {/* Location Picker Modal */}
-      <LocationPicker visible={locationPickerVisible} />
+      <LocationPicker
+        visible={locationPickerVisible}
+        onClose={() => setLocationPickerVisible(false)}
+        onLocationSelect={handleLocationSelect}
+      />
     </SafeAreaView>
   );
 };
