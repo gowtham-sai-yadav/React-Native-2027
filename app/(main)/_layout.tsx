@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import "../global.css";
 export default function MainLayout() {
   return (
-    <Tabs>
+    <Tabs screenOptions={{headerShown:false}}>
       <Tabs.Screen
         name="home"
         options={{
