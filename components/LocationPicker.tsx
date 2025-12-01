@@ -69,8 +69,8 @@ const LocationPicker: React.FC<LocationPickerProps> = ({ visible, onClose, onLoc
   };
 
   const selectResult = async (result: SearchResult) => {
-    const lat = parseFloat(result.lat);
-    const lng = parseFloat(result.lon);
+    const lat = parseFloat(result.lat);// 57.1000
+    const lng = parseFloat(result.lon);//  23.000
     setSelectedLocation({ latitude: lat, longitude: lng });
     setAddress(result.display_name);
     setSearchQuery('');
