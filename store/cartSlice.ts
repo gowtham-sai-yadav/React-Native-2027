@@ -47,6 +47,9 @@ const cartSlice = createSlice({
     }
 
 
+    // remove and update quantity
+
+
   },
 });
 

@@ -9,12 +9,12 @@ const cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: any) => state.cart.items);
 
-  // const calculateTotal = () => {
-  //   return cartItems.reduce((total, item) => {
-  //     const price = parseFloat(item.price.replace("₹", ""));
-  //     return total + price * item.quantity;
-  //   }, 0);
-  // };
+  const calculateTotal = () => {
+    return cartItems.reduce((total:any, item:any) => {
+      const price = parseFloat(item.price.replace("₹", ""));
+      return total + price * item.quantity; // 127+65*1
+    }, 0);
+  };
 
   // const handleQuantityChange = (id: number, change: number) => {
   //   const item = cartItems.find((item) => item.id === id);
@@ -94,7 +94,7 @@ const cart = () => {
         <View className="bg-white border-t border-gray-200 px-4 py-4">
           <View className="flex-row justify-between items-center mb-4">
             <Text className="text-lg font-semibold text-gray-800">Total:</Text>
-            <Text className="text-2xl font-bold text-emerald-600">₹</Text>
+            <Text className="text-2xl font-bold text-emerald-600">₹ {calculateTotal()}</Text>
           </View>
           
           <TouchableOpacity className="bg-emerald-600 rounded-xl py-4 items-center">
