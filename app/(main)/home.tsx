@@ -14,11 +14,19 @@ import { useRouter } from "expo-router";
 import { authApi } from "../../utils/api.js";
 import LocationPicker from "../../components/LocationPicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/cartSlice";
+
+
 
 const home = () => {
   const router = useRouter();
   const [locationPickerVisible, setLocationPickerVisible] = useState(false);
   const [locationName, setLocationName] = useState("Home");
+
+
+  // initialize dispatcher
+  const dispatch = useDispatch()
 
   useEffect(() => {
     loadSavedLocation();
@@ -224,7 +232,16 @@ const home = () => {
                   <Text className="text-lg font-bold text-emerald-600">
                     {item.price}
                   </Text>
-                  <TouchableOpacity className="bg-emerald-600 px-3 py-1 rounded-lg">
+                  <TouchableOpacity className="bg-emerald-600 px-3 py-1 rounded-lg"
+                  onPress={()=>{
+                    dispatch(addToCart({
+                      id:item.id,
+                      name:item.name,
+                      image: item.image,
+                      category: item.category,
+                      price : item.price
+                    }))
+                  }}>
                     <Text className="text-white text-xs font-semibold">
                       Add
                     </Text>
